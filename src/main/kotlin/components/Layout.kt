@@ -8,6 +8,7 @@ import kotlinx.html.head
 import kotlinx.html.header
 import kotlinx.html.html
 import kotlinx.html.img
+import kotlinx.html.link
 import kotlinx.html.main
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
@@ -18,6 +19,7 @@ fun layout() = createHTML().html {
 	head {
 		title { +"%TITLE%remlit blog" }
 		styleLink("/static/index.css")
+		link { rel = "icon"; type = "image/x-icon"; href = "/static/favicon.ico" }
 	}
 	body {
 		header {
