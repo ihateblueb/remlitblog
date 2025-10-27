@@ -1,0 +1,6 @@
+ktor:
+  application:
+    modules:
+      - site.remlit.ApplicationKt.module
+  deployment:
+    port: 8080

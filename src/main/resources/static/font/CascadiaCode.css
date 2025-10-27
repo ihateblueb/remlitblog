@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-ExtraLight.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-ExtraLightItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-LightItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-Italic.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-MediumItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-SemiBoldItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/static/font/CascadiaCode/CascadiaCode-BoldItalic.ttf');
+}
