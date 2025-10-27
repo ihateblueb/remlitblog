@@ -50,9 +50,17 @@ fun getCat(id: String) = CatService.get(id)
 
 ### Variables
 
-const val, val, var
+Kotlin has three main variables, `const val`, `val`, and `var`. `const val` is like final properties, they're final at
+runtime. `val` is a property that cannot be reassigned, but can change. `var` is a property that can be reassigned.
 
-get(), set()
+Automatically, getters and setters are generated and can be set specifically like this:
+
+// TODO: Set?
+
+```kotlin
+val value get() = Config.get("value")
+		  set(value: String) = Config.write("value", value)
+```
 
 ## Data Classes
 
@@ -119,7 +127,7 @@ println(a intersection b intersection c)
 println((h intersection k) diff j complement u)
 println((a complement u) intersection (b complement u))
 ```
-
+ 
 They let you write natural feeling code that just flows and is easily fit anywhere, and I love that.
 
 ## Trying to be Functional
@@ -216,7 +224,9 @@ even on my laptop where it's pretty terrible to use, but they're making progress
 ### Cool Annotations
 
 There's a bunch of built-in annotations for the JVM target that sound cool, but I never end up using them. One example of
-that is `@JvmSynthetic` which makes it so only Kotlin code can use the annotated method.
+that is `@JvmSynthetic` which makes it so only Kotlin code can use the annotated method. There's also `@JvmName`,
+`@JvmField`, `@JvmDefault`, and others. Sometimes there's annotations to make up for missing features, like `@Throws`,
+which is like Java's throws.
 
 ### Kotlin Scripting
 
