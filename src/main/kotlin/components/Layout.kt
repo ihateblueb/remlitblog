@@ -16,7 +16,7 @@ import kotlinx.html.title
 
 fun layout() = createHTML().html {
 	head {
-		title { +"remlitblog" }
+		title { +"%TITLE%remlit blog" }
 		styleLink("/static/index.css")
 	}
 	body {
@@ -31,7 +31,7 @@ fun layout() = createHTML().html {
 			+"%CONTENT%"
 		}
 		footer {
-			p { +"Queried in %QUERY_MICROS%μs, rendered in %RENDER_MS%ms" }
+			p { +"Queried in %QUERY_MS%ms, rendered in %RENDER_MS%ms" }
 			img { src = "/static/img/icon/pumpkin.png" }
 		}
 	}

@@ -18,17 +18,16 @@ import site.remlit.components.layout
 import site.remlit.model.Article
 import site.remlit.service.ArticleService
 import kotlin.system.measureTimeMillis
-import kotlin.time.measureTime
 
 fun Route.article() {
 	get("/article/{id}") {
 		val id = call.parameters.getOrFail("id")
 
 		var article: Article
-		val queryTime = measureTime {
+		val queryTime = measureTimeMillis {
 			article = ArticleService.get(id)
 				?: return@get call.respond(HttpStatusCode.NotFound)
-		}.inWholeMicroseconds
+		}
 
 		if (article.title.isBlank() || article.date.isBlank() || article.content.isBlank())
 			return@get call.respond(HttpStatusCode.NotFound)
@@ -58,8 +57,8 @@ fun Route.article() {
 				.generateHtml()
 
 			html = layout()
-				.replace("%QUERY_MICROS%", "$queryTime")
-				.replace("%CONTENT_HEADER%", contentHtml)
+				.replace("%QUERY_MS%", "$queryTime")
+				.replace("%TITLE%", "${article.title} - ")
 				.replace("%CONTENT%", "$headerHtml<article>$contentHtml</article>")
 		}
 

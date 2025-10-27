@@ -3,10 +3,6 @@ package site.remlit.service
 import site.remlit.model.Article
 
 object ArticleService {
-	fun getAll() {
-
-	}
-
 	fun get(id: String): Article? = try {
 		Article(
 			id,
@@ -18,14 +14,14 @@ object ArticleService {
 		null
 	}
 
-	fun getMetadata() =
+	fun getAll() =
 		this::class.java.getResource("/articles/_manifest.txt")?.readText()?.lines() ?: emptyList()
 
 	fun getTitle(id: String): String? =
-		getMetadata().firstOrNull { it.split(":").first() == id }
+		getAll().firstOrNull { it.split(":").first() == id }
 			?.split(":")?.getOrNull(1)
 
 	fun getDate(id: String): String? =
-		getMetadata().firstOrNull { it.split(":").first() == id }
+		getAll().firstOrNull { it.split(":").first() == id }
 			?.split(":")?.getOrNull(2)
 }
