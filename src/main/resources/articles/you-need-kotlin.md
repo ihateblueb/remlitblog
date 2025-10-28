@@ -13,9 +13,13 @@ my thoughts and love for this language (and maybe to convince others to try it).
 
 ## Syntax & Quirks
 
-Kotlin's known for being more concise Java (and The Android Language)
+Kotlin's known for being more concise Java (and The Android Language). It's genuinely one of it's best features, there's
+no other language that fully matches what makes Kotlin's syntax so great. 
 
-// TODO: Iterators, it and this, apply, let, etc. return@
+// TODO: it and this, apply, let, etc. return@
+
+### Iterators
+
 
 ### ?. and ?:
 
@@ -48,27 +52,70 @@ the Kotlin devs that it makes code a more readable.
 In Kotlin, you can set a function as equal to a value.
 
 ```kotlin
-fun getCat() = "🐈"
+fun findCat() = "🐈"
 ```
 
 This is equivalent to if I had written `return "🐈"` in the body of the function. I can also set this equal
 to another function and pass the parameters.
 
 ```kotlin
-fun getCat(id: String) = CatService.get(id)
+fun findCat(id: String) = CatService.find(id)
 ```
 
 ### Variables
 
 Kotlin has three main variables, `const val`, `val`, and `var`. `const val` is like final properties, they're final at
 compile time. `val` is a property that cannot be reassigned, but can change. `var` is a property that can be reassigned.
+Something I've never loved about Java and other languages were the types being the start of a variable. I understand
+strict typing when you're setting properties on a class, but when it's just a random variable in a function then it feels
+a little overkill. That's why Kotlin doesn't suggest adding types to variables unless theyre const, or properties of some
+object.
 
-Automatically, getters and setters are generated and can be set specifically like this:
+```kotlin
+class Dog {
+	val type: DogType = DogType.Loud // Suggested
+}
+
+fun dog() {
+	val dogs = DogService.getAll() // Not needed, inline type in your IDE will show it to you instead
+}
+```
+
+Automatically, getters and setters are generated for Java interop, but they can be set specifically like this:
 
 ```kotlin
 var test get() = Config.get("value")
     set(value) = Config.write("value", value)
 ```
+
+### Goodbye .getThing()
+
+Kotlin automatically maps getters and setters to a val or var. If you're using a Java library, like Bukkit, then
+automatically you can do:
+
+```kotlin
+val pluginManager = this.server.pluginManager
+// instead of...
+val pluginManager = this.getServer().getPluginManager()
+```
+
+This is one of many things that helps Kotlin be more concise and easier on the eyes. 
+
+### Return Labelling
+
+Kotlin loves lambdas (more on that later), so sometimes your code can get messy fast. Where you are returning to can also
+get messy. Kotlin's thought of this though, and has return labels.
+
+```kotlin
+fun getFirstColor(exclude: Color) = transaction {
+	db.getAvailableColors().forEach {
+		if (it == exclude) return@forEach // equivalent to continue
+		else return@transaction it // returns to outside of this loop
+	}
+} 
+```
+
+// TODO: Read return labelling docs, maybe get a return@loop example or some other special one. Or show how to set specific labels.
 
 ## Data Classes
 
@@ -76,8 +123,8 @@ Record classes are not the same
 
 ## Extension Functions
 
-Extension functions are a big part of Kotlin, its own HTTP framework is mostly based around them. Extension functions
-are when you extend a class by specifying it in front of your function method.
+Extension functions are a big part of Kotlin, Ktor<sup>[2]</sup> is mostly based around them. Extension functions are when
+you extend a class by specifying it in front of your function method. 
 
 ```kotlin
 fun Application.module() {}
@@ -139,7 +186,7 @@ where they're stored and then later called upon an event happening.
 Inline functions are like regular functions, but often have lambda parameters. They can come with a performance benefit. 
 In certain cases, it's more performant to inline the code than force an object to be created for the function. I say in 
 certain cases because if you aren't careful, or have very large inline functions, you'll have excessive duplicates in 
-compiled code that may be more efficient as a regular function.
+compiled code that counteract the benefit inline functions are supposed to bring.
 
 A simple example inline function:
 
@@ -161,6 +208,7 @@ inline fun <reified T> speak() =
     when (T) {
         is Cat -> "Meow"
         is Dog -> "Bark"
+		else -> "AAAAH!"
     }
 ```
 
@@ -171,6 +219,7 @@ inline fun <T> speak() =
     when (T) { // Error: Type parameter 'T' is not an expression.
         is Cat -> "Meow"
         is Dog -> "Bark"
+		else -> "AAAAH!"
     }
 ```
 
@@ -184,9 +233,9 @@ For example, Jetbrains Exposed (the Kotlin ORM) uses them to build query strings
 ```kotlin
 UserEntity
     .find {
-        UserTable.host eq null and
-        (UserTable.username neq "instance.actor") and
-        (UserTable.createdAt lessThan TimeService.now())
+        UserTable.host eq null and // eq, and are infix
+        (UserTable.username neq "instance.actor") and // neq, and
+        (UserTable.createdAt lessThan TimeService.now()) // lessThan 
     }
     .toList()
 ```
@@ -265,7 +314,7 @@ class Bookshelf {
 
 ```java
 class Book {
-    public static void read() {}
+    public void read() {}
 
     static class Companion {
         public static void create() {}
@@ -279,7 +328,7 @@ This can be fixed with `@JvmStatic`. With this annotation, static methods are ge
 Still, it's just a patch on default annoying behaviour. Having objects is not something I'm against, but if it's at the
 cost of statics in classes, I'm not a big fan.
 
-This is an issue that's been debated for years, has had multiple KEEP<sup>[2]</sup> discussions, and may or may not be
+This is an issue that's been debated for years, has had multiple KEEP<sup>[3]</sup> discussions, and may or may not be
 resolved eventually. For now, I'm fine with the language as is. This is my only major complaint, and it'd be less of a
 thing for me if I was willing to make all my Service classes in Aster objects to begin with. It just feels weird to make
 them objects. Overall, it is not a big deal.
@@ -301,9 +350,31 @@ that is `@JvmSynthetic` which makes it so only Kotlin code can use the annotated
 `@JvmField`, `@JvmDefault`, and others. Sometimes there's annotations to make up for missing features, like `@Throws`,
 which is like Java's throws.
 
+### Context Parameters
+
+// TODO: https://kotlinlang.org/docs/whatsnew22.html#preview-of-context-parameters
+
 ### Kotlin Scripting
 
 Gradle
+
+### Smart Casting
+
+It's very rare I end up having to cast a value to a type. Kotlin's smart casting catches almost everything I've needed it
+to, which is generally what I expect a programming language with casts to do. After using Swift breifly before Kotlin, it feels
+neccesary to mention how much it isn't like Swift. You can read more about it [here](https://kotlinlang.org/docs/typecasts.html#smart-casts).
+
+### Primitive Types
+
+Unlike Java, primitive types aren't lowercased. This is purely aesthetics, but genuinely I've always hated putting a lowercase
+type after a colon in Java.
+
+### Nothing Beats Duke
+
+Like most programming languages, Kotlin has a mascot. It's name is Kodee, and it looks super weird, but I've come around to liking
+it. I'm not loving Duke any less though.
+
+![Kodee waving at the viewer and winking](/static/img/kodeewave.webp)
 
 ## The Android Language
 
@@ -311,9 +382,14 @@ Kotlin has way more potential than being just "The Android Language," and I hope
 language to write, and has so many libraries and resources available just by having such strong Java interop. If you've been
 interested in anything mentioned here, you should [try it out](https://kotlinlang.org/docs/jvm-get-started.html)!
 
+Also, if you liked reading this, let me know. I liked writing it a lot and plan to write more in depth about specific Kotlin
+features in the future.
+
 ## Footnotes
 
 **1:** Domain Specific Language, referring to Kotlin's ability to make what feels like a custom language with inline and
 infix functions.
 
-**2:** Kotlin Evolution and Enhancement Process, the Kotlin JEP equivalent
+**2:** The Kotlin HTTP framework, https://ktor.io/
+
+**3:** Kotlin Evolution and Enhancement Process, the Kotlin JEP equivalent
