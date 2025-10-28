@@ -56,6 +56,8 @@ fun Route.article() {
 			val contentHtml = HtmlGenerator(article.content, parsed, flavor)
 				.generateHtml()
 
+			// todo: syntax highlighting
+
 			html = layout()
 				.replace("%QUERY_MS%", "$queryTime")
 				.replace("%TITLE%", "${article.title} - ")

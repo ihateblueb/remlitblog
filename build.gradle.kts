@@ -25,7 +25,9 @@ dependencies {
 	implementation("io.ktor:ktor-server-netty")
 	implementation("io.ktor:ktor-server-config-yaml")
 	implementation("ch.qos.logback:logback-classic:${logback_version}")
+
 	implementation("org.jetbrains:markdown:0.7.3")
+	implementation("xyz.wingio.syntakts:syntakts-core:1.0.0-rc06")
 
 	testImplementation("io.ktor:ktor-server-test-host")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
