@@ -1,5 +1,6 @@
 package site.remlit.components
 
+import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.classes
 import kotlinx.html.div
@@ -14,6 +15,7 @@ import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import kotlinx.html.styleLink
 import kotlinx.html.title
+import site.remlit.service.ButtonService
 
 fun layout() = createHTML().html {
 	head {
@@ -33,6 +35,16 @@ fun layout() = createHTML().html {
 			+"%CONTENT%"
 		}
 		footer {
+			val buttons = ButtonService.getAll()
+			div {
+				classes = setOf("buttons")
+				buttons.forEach { button ->
+					a {
+						href = button.site ?: "#"
+						img { src = "/static/btn/${button.source}" }
+					}
+				}
+			}
 			p { +"Queried in %QUERY_MS%ms, rendered in %RENDER_MS%ms" }
 			img { src = "/static/img/icon/pumpkin.png" }
 		}

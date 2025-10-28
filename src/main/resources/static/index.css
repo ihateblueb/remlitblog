@@ -145,6 +145,21 @@ footer {
 
     margin-bottom: 35px;
 
+    .buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        gap: 4px;
+        max-width: 700px;
+        width: 100%;
+
+        img {
+            width: 88px;
+            height: 31px;
+        }
+    }
+
     img {
         height: 45px;
     }
