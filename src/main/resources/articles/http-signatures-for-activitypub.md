@@ -13,7 +13,7 @@ actually has. It prevents a lot of bad things from happening, like:
 - Other instance reports to be another one.
 - Domain expires, is bought by someone else, and they impersonate the actor's registered as being on that domain.
 
-All of these examples aren't possible<sup>1</sup> because the impersonator doesn't have the actor's private key, so they can't sign 
+All of these examples aren't possible<sup>[1]</sup> because the impersonator doesn't have the actor's private key, so they can't sign 
 an activity.
 
 ## Structure
@@ -28,7 +28,7 @@ host: aster.remlit.site
 digest: SHA-256=Uode+sf+HWwoHvCOKKqYaVBi0yP1xaO9cKfaxYekHmE=
 ```
 
-...and the POST request's Signature header should<sup>2</sup> look like:
+...and the POST request's Signature header should<sup>[2]</sup> look like:
 
 ```
 keyId="https://remlit.site/users/a2mjqz9uyru1n7y4#main-key",
@@ -56,7 +56,7 @@ If a body is present, make sure you validate its digest. In Java, `java.security
 ## Common Adaptations
 
 A lot of implementers of ActivityPub have to adapt to make the standard work, and HTTP signatures are one of those things.
-Often, an "instance actor" is needed for authorized fetch<sup>3</sup> to work where there's no specific actor requesting something.
+Often, an "instance actor" is needed for authorized fetch<sup>[3]</sup> to work where there's no specific actor requesting something.
 
 ## Additional Notes
 
@@ -66,8 +66,8 @@ specifics and following the rules than I do. If you'd like to see how I've handl
 
 ## Footnotes
 
-**1**: In ideal conditions. Signature validation is probably the most common vulnerability in fediverse software. See: https://github.com/misskey-dev/misskey/security/advisories/GHSA-7vgr-p3vc-p4h2, https://github.com/mastodon/mastodon/security/advisories/GHSA-3fjr-858r-92rw.
+**1:** In ideal conditions. Signature validation is probably the most common vulnerability in fediverse software. See: https://github.com/misskey-dev/misskey/security/advisories/GHSA-7vgr-p3vc-p4h2, https://github.com/mastodon/mastodon/security/advisories/GHSA-3fjr-858r-92rw.
 
-**2**: Not actually. This has added new lines for readability.
+**2:** Not actually. This has added new lines for readability.
 
-**3**: Authorized fetch is when a GET endpoint requires HTTP signatures as authentication to make sure only certain actors (followers for example) can access a resource. It's also used to further enforce instance blocks.
+**3:** Authorized fetch is when a GET endpoint requires HTTP signatures as authentication to make sure only certain actors (followers for example) can access a resource. It's also used to further enforce instance blocks.
