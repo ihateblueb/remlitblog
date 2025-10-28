@@ -9,17 +9,22 @@ was turned to HTML by the Jetbrains Markdown library in Kotlin. The CSS could be
 absurd.
 
 Anyway, this illustrates my point that I love this language and know a lot about it. This article serves to host all
-my thoughts and love for this language (and maybe to convince others to try it).
+my current thoughts and love for this language (and maybe to convince others to try it).
 
 ## Syntax & Quirks
 
 Kotlin's known for being more concise Java (and The Android Language). It's genuinely one of it's best features, there's
 no other language that fully matches what makes Kotlin's syntax so great. 
 
-// TODO: it and this, apply, let, etc. return@
+Kotlin requires no semicolons, which was a small adaptation I had to make originally. I came from TypeScript which doesn't require
+them, but I always had them enabled for my projects so it became automatic for me. Now I have the reverse problem where I don't
+remember to use semicolons in Java. You can still use them when you have to, like here:
 
-### Iterators
+```kotlin
+print("One thing and "); println("another thing")
+```
 
+// TODO: it and this, apply, let, etc
 
 ### ?. and ?:
 
@@ -43,9 +48,18 @@ if (Objects.isNull(user)) {
 
 Kotlin does not have a ternary (`condition ? true : false`) but instead recommends using inline if statements.
 (`if (condition) true else false`). I don't feel very strongly about this, but I do tend to lean towards agreeing with
-the Kotlin devs that it makes code a more readable.
+the Kotlin devs that it makes code more readable. Having too many random symbols can quickly make an easy to catch
+condition problem unrecognizable in `? :` soup.
 
 ### String Templating
+
+Kotlin is big on string templating. Whenever you can, it's generally suggested, and it saves a lot of space.
+
+```kotlin
+println("It is currently $time in $timezone")
+// rather than
+println("It is currently " + time + " in " + timezone)
+```
 
 ### Function Equals
 
@@ -381,6 +395,9 @@ it. I'm not loving Duke any less though.
 Kotlin has way more potential than being just "The Android Language," and I hope it becomes more adopted. It's a wonderful
 language to write, and has so many libraries and resources available just by having such strong Java interop. If you've been
 interested in anything mentioned here, you should [try it out](https://kotlinlang.org/docs/jvm-get-started.html)!
+
+If you want to look at real Kotlin code, you can check out [Aster](https://github.com/ihateblueb/aster-kt), or [this blog's backend](https://github.com/ihateblueb/remlitblog),
+or a variety of other open source Kotlin projects on [GitHub](https://github.com/search?q=language%3AKotlin&type=repositories) or [Codeberg](https://codeberg.org/explore/repos?q=&language=Kotlin).
 
 Also, if you liked reading this, let me know. I liked writing it a lot and plan to write more in depth about specific Kotlin
 features in the future.
