@@ -237,6 +237,8 @@ inline fun <T> speak() =
     }
 ```
 
+// todo: noinline, crossinline
+
 ## Infix Functions
 
 Infix functions are probably one of my favorite Kotlin features. They seem weird to begin with, but once you see how
