@@ -14,7 +14,7 @@ my current thoughts and love for this language (and maybe to convince others to 
 ## Syntax & Quirks
 
 Kotlin's known for being more concise Java (and The Android Language). It's genuinely one of it's best features, there's
-no other language that fully matches what makes Kotlin's syntax so great. 
+no other language that fully matches it's feature set and what makes Kotlin's syntax so great.  
 
 Kotlin requires no semicolons, which was a small adaptation I had to make originally. I came from TypeScript which doesn't require
 them, but I always had them enabled for my projects so it became automatic for me. Now I have the reverse problem where I don't
@@ -23,8 +23,6 @@ remember to use semicolons in Java. You can still use them when you have to, lik
 ```kotlin
 print("One thing and "); println("another thing")
 ```
-
-// TODO: it and this, apply, let, etc
 
 ### ?. and ?:
 
@@ -131,6 +129,30 @@ fun getFirstColor(exclude: Color) = transaction {
 
 // TODO: Read return labelling docs, maybe get a return@loop example or some other special one. Or show how to set specific labels.
 
+### apply, let, etc.
+
+Kotlin's stdlib comes with a lot of functions that let you modify a value in small spaces, allowing you to save room and not have
+to declare extra variables or use a line to set a value.
+
+```kotlin
+UserService.getById(id.apply { this.lowercase() })
+```
+
+Apply immediately changes the object. It's as if you were setting a variable to a modified value of the original. Let, however, allows
+you to replace the variable. It's a litle like Scala's functions, where the last value in the block is what's returned.
+
+```kotlin
+val users = UserService.getAll()
+println(users.first().name.let {
+	it.lowercase()
+})
+// is equivalent to...
+val users = UserService.getAll()
+println(users.first().name.lowercase())
+``` 
+
+// TODO: apply, let, etc
+
 ## Data Classes
 
 Record classes are not the same
@@ -147,7 +169,7 @@ fun Application.module() {}
 This function extends the Application class, and is now available like a method and just as `module()` in the current file.
 
 My biggest use case for this was when I moved all my common API responses to a shared project that could be used for multiple
-platforms. I used to have the database entity -> API response convertor functions on the companion objects of the data classes.
+platforms. I used to have the database entity to API response convertor functions on the companion objects of the data classes.
 So, when I moved them to the common project, the database entity classes were no longer available and I had to move the
 convertors to an extension function, like this:
 
@@ -338,11 +360,22 @@ class Book {
 }
 ```
 
-I think the generated Companion subclass is unbelievably ugly and annoying.
+I think the generated static Companion nested class is unbelievably ugly and annoying.
 
 This can be fixed with `@JvmStatic`. With this annotation, static methods are generated alongside the companion object.
-Still, it's just a patch on default annoying behaviour. Having objects is not something I'm against, but if it's at the
-cost of statics in classes, I'm not a big fan.
+Still, it's just a patch on default annoying behaviour. Plus, then there's duplicate methods (shown below). Having objects
+is not something I'm against, but if it's at the cost of statics in classes, I'm not a big fan.
+
+```java
+class Book {
+    public void read() {}
+    public static Book create() {}
+
+    static class Companion {
+        public static Book create() {}
+    }
+}
+```
 
 This is an issue that's been debated for years, has had multiple KEEP<sup>[3]</sup> discussions, and may or may not be
 resolved eventually. For now, I'm fine with the language as is. This is my only major complaint, and it'd be less of a
@@ -351,7 +384,7 @@ them objects. Overall, it is not a big deal.
 
 ## IDE Choices
 
-Since Kotlin was made by Jetbrains, it's only really been supported in IntelliJ IDEA. It's had an Eclipse plugin for a
+Since Kotlin was made by JetBrains, it's only really been supported in IntelliJ IDEA. It's had an Eclipse plugin for a
 while, but it was basically unusable when I tested it. Recently, Jetbrains has been trying to fix this, and they've made
 great progress. There's a [Visual Studio Code extension](https://github.com/Kotlin/kotlin-lsp) that I haven't used much
 and also an extension for [Zed](https://zed.dev/extensions/kotlin) that works alright. I still use IDEA when I can,
@@ -368,7 +401,7 @@ which is like Java's throws.
 
 ### Context Parameters
 
-// TODO: https://kotlinlang.org/docs/whatsnew22.html#preview-of-context-parameters
+// TODO: https://kotlinlang.org/docs/whatsnew22.html#preview-of-context-parameterst
 
 ### Kotlin Scripting
 
@@ -377,7 +410,7 @@ Gradle
 ### Smart Casting
 
 It's very rare I end up having to cast a value to a type. Kotlin's smart casting catches almost everything I've needed it
-to, which is generally what I expect a programming language with casts to do. After using Swift breifly before Kotlin, it feels
+to, which is generally what I expect a programming language with casts to do. After using Swift briefly before Kotlin, it feels
 neccesary to mention how much it isn't like Swift. You can read more about it [here](https://kotlinlang.org/docs/typecasts.html#smart-casts).
 
 ### Primitive Types
