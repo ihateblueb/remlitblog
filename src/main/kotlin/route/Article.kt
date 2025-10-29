@@ -17,6 +17,7 @@ import org.intellij.markdown.parser.MarkdownParser
 import site.remlit.components.layout
 import site.remlit.model.Article
 import site.remlit.service.ArticleService
+import site.remlit.service.SyntaxHighlightingService
 import kotlin.system.measureTimeMillis
 
 fun Route.article() {
@@ -58,10 +59,12 @@ fun Route.article() {
 
 			// todo: syntax highlighting
 
-			html = layout()
-				.replace("%QUERY_MS%", "$queryTime")
-				.replace("%TITLE%", "${article.title} - ")
-				.replace("%CONTENT%", "$headerHtml<article>$contentHtml</article>")
+			html = SyntaxHighlightingService.highlight(
+				layout()
+					.replace("%QUERY_MS%", "$queryTime")
+					.replace("%TITLE%", "${article.title} - ")
+					.replace("%CONTENT%", "$headerHtml<article>$contentHtml</article>")
+			)
 		}
 
 		call.respond(html.replace("%RENDER_MS%", "$renderTime"))

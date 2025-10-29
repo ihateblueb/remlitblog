@@ -197,3 +197,45 @@ pre {
 
 article {
 }
+
+
+code {
+    --comment: #00000070;
+    --method: #2e45b3;
+    --identifiers: #0e8173;
+    --string: #18a823;
+
+    --type-special: #04a66d;
+    --label: #438da8;
+
+    &.language-kotlin {
+        .comment {
+            color: var(--comment);
+        }
+        .string {
+            color: var(--string);
+        }
+        .fnc,.class {
+            color: var(--method);
+        }
+        .fnc-name {
+            color: var(--identifiers);
+        }
+        .t {
+            color: var(--type-special);
+        }
+        .variable,.conditional,.true,.false {
+            color: var(--method);
+        }
+        .return {
+            color: var(--method);
+
+            .label {
+                color: var(--label);
+            }
+        }
+        .itc {
+            font-style: italic;
+        }
+    }
+}
