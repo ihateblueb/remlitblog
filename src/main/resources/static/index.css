@@ -203,28 +203,33 @@ code {
     --comment: #00000070;
     --method: #2e45b3;
     --identifiers: #0e8173;
-    --string: #18a823;
+    --identifiers-alt: #871586;
+    --string: #38753b;
 
     --type-special: #04a66d;
     --label: #438da8;
 
-    &.language-kotlin {
+    &.language-kotlin,&.language-java {
         .comment {
             color: var(--comment);
         }
         .string {
             color: var(--string);
         }
-        .fnc,.class {
+        .fnc,.mtd,.clazz {
             color: var(--method);
         }
-        .fnc-name {
+        .fnc-name,.mtd-name {
             color: var(--identifiers);
+        }
+        .variable-name {
+            color: var(--identifiers-alt);
+            font-style: italic;
         }
         .t {
             color: var(--type-special);
         }
-        .variable,.conditional,.true,.false {
+        .variable,.conditional,.true,.false,.null,.this,.strtmp {
             color: var(--method);
         }
         .return {

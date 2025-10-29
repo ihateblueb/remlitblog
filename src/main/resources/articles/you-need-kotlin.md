@@ -211,7 +211,7 @@ inline fun paragraph(text: () -> String) =
 // can be used like
 paragraph { "These small creatures inhabit Skyloft." }
 
-// and results in "<p>These small creatures inhabit Skyloft.</p>"
+// and results in <p>These small creatures inhabit Skyloft.</p>
 ```
 
 Inline functions also are the only to support reified type parameters which allow you to inspect the passed type in your 
@@ -222,7 +222,7 @@ inline fun <reified T> speak() =
     when (T) {
         is Cat -> "Meow"
         is Dog -> "Bark"
-		else -> "AAAAH!"
+        else -> "AAAAH!"
     }
 ```
 
@@ -233,7 +233,7 @@ inline fun <T> speak() =
     when (T) { // Error: Type parameter 'T' is not an expression.
         is Cat -> "Meow"
         is Dog -> "Bark"
-		else -> "AAAAH!"
+        else -> "AAAAH!"
     }
 ```
 
@@ -333,7 +333,7 @@ class Book {
     public void read() {}
 
     static class Companion {
-        public static void create() {}
+        public static Book create() {}
     }
 }
 ```

@@ -1,6 +1,11 @@
 package site.remlit.service
 
 object SyntaxHighlightingService {
+	const val HTML_OPEN_C = "&lt;"
+	const val HTML_CLOSED_C = "&gt;"
+
+	const val QUOTE = "(&quot;|&#34;|\")"
+
 	fun createCodeblockRegex(language: String) =
 		Regex("<code class=\"language-$language\">([\\s\\S]*?)</code>")
 
@@ -12,18 +17,21 @@ object SyntaxHighlightingService {
 		kotlinBlocks.forEach {
 			html = html.replace(it.value, highlightKotlin(it.value))
 		}
+		javaBlocks.forEach {
+			html = html.replace(it.value, highlightJava(it.value))
+		}
 
 		return html
 	}
 
-	fun highlightKotlin(value: String): String {
+	fun highlightJava(value: String): String {
 		var html = value
 
-		val strings = Regex("\"([\\s\\S]*?)\"")
+		val strings = Regex("$QUOTE([\\s\\S]*?)$QUOTE")
 
 		strings.findAll(html).forEach {
-			if (it.value.contains("\"language-kotlin\"")) return@forEach
-			html = html.replace(it.value, "<span class=\"string\">${it.value}</span>")
+			if (!it.value.contains("\"language-java\""))
+				html = html.replace(it.value, "<span class=\"string\">${it.value}</span>")
 		}
 
 		val comment = Regex("//(.*)")
@@ -32,20 +40,107 @@ object SyntaxHighlightingService {
 			html = html.replace(it.value, "<span class=\"comment\">${it.value}</span>")
 		}
 
-		val t = Regex("<T>|\\sT>|\\(T\\)")
+		val switchIfElseThrow = Regex("switch\\s\\(.*\\)|if\\s\\(.*\\)|else\\s|throw\\s")
 
-		t.findAll(html).forEach {
-			html = html.replace(it.value, it.value.replace("T", "<span class=\"t\">T</span>"))
+		switchIfElseThrow.findAll(html).forEach {
+			html = html.replace(
+				it.value,
+				it.value
+					.replace("switch", "<span class=\"conditional\">switch</span>")
+					.replace("if", "<span class=\"conditional\">if</span>")
+					.replace("else", "<span class=\"conditional\">else</span>")
+					.replace("throw", "<span class=\"conditional\">throw</span>")
+			)
 		}
 
-		val boolean = Regex("true|false")
+		val method = Regex("(public|private)\\s(static\\s|)(void|[A-Za-z$HTML_OPEN_C$HTML_CLOSED_C.]*)\\s([a-zA-Z]*)\\(")
 
-		boolean.findAll(html).forEach {
+		method.findAll(html).forEach {
+			val name = it.groupValues.last()
+			println(it.groupValues)
+			html = html.replace(
+				it.value,
+				it.value
+					.replace("public", "<span class=\"mtd\">public</span>")
+					.replace("private", "<span class=\"mtd\">private</span>")
+					.replace("static", "<span class=\"mtd\">static</span>")
+					.replace("void", "<span class=\"mtd\">void</span>")
+					.replace(name, "<span class=\"mtd-name\">$name</span>")
+			)
+		}
+
+		val properties = Regex("(public|private)\\s(static\\s|final\\s|)(void|[A-Za-z$HTML_OPEN_C$HTML_CLOSED_C.]*)\\s([a-zA-Z]*)\\s=")
+
+		properties.findAll(html).forEach {
+			val name = it.groupValues.last()
+			println(it.groupValues)
+			html = html.replace(
+				it.value,
+				it.value
+					.replace("public", "<span class=\"variable\">public</span>")
+					.replace("private", "<span class=\"variable\">private</span>")
+					.replace("static", "<span class=\"variable\">static</span>")
+					.replace("final", "<span class=\"variable\">final</span>")
+					.replace("void", "<span class=\"variable\">void</span>")
+					.replace(name, "<span class=\"variable-name\">$name</span>")
+			)
+		}
+
+		val classInterface = Regex("class\\s([a-zA-Z]*)".let {
+			var regex = it
+			regex += "|record\\sclass\\s([a-zA-Z]*)"
+			regex += "|abstract\\sclass\\s([a-zA-Z]*)"
+			regex += "|sealed\\sclass\\s([a-zA-Z]*)"
+			regex += "|enum\\sclass\\s([a-zA-Z]*)"
+			regex += "|static\\sclass\\s([a-zA-Z]*)"
+
+			regex += "|interface\\s([a-zA-Z]*)"
+
+			regex
+		})
+
+		classInterface.findAll(html).forEach {
+			html = html.replaceFirst(
+				it.value,
+				it.value
+					.replace("record class", "<span class=\"clazz\">record class</span>")
+					.replace("abstract class", "<span class=\"clazz\">abstract class</span>")
+					.replace("sealed class", "<span class=\"clazz\">sealed class</span>")
+					.replace("enum class", "<span class=\"clazz\">enum class</span>")
+					.replace("static class", "<span class=\"clazz\">static class</span>")
+					 //.replace("class", "<span class=\"clazz\">class</span>")
+					.replace("interface", "<span class=\"clazz\">interface</span>")
+			)
+		}
+
+		return html
+	}
+
+	fun highlightKotlin(value: String): String {
+		var html = value
+
+		val strings = Regex("$QUOTE([\\s\\S]*?)$QUOTE")
+
+		strings.findAll(html).forEach {
+			if (!it.value.contains("\"language-kotlin\""))
+				html = html.replace(it.value, "<span class=\"string\">${it.value}</span>")
+		}
+
+		val comment = Regex("//(.*)")
+
+		comment.findAll(html).forEach {
+			html = html.replace(it.value, "<span class=\"comment\">${it.value}</span>")
+		}
+
+		val booleanNull = Regex("true|false|null")
+
+		booleanNull.findAll(html).forEach {
 			html = html.replace(
 				it.value,
 				it.value
 					.replace("true", "<span class=\"true\">true</span>")
 					.replace("false", "<span class=\"false\">false</span>")
+					.replace("null", "<span class=\"null\">null</span>")
 			)
 		}
 
@@ -69,16 +164,16 @@ object SyntaxHighlightingService {
 			html = html.replace(
 				it.value,
 				it.value
-					.replace("data class", "<span class=\"class\">data class</span>")
-					.replace("open class", "<span class=\"class\">open class</span>")
-					.replace("abstract class", "<span class=\"class\">abstract class</span>")
-					.replace("sealed class", "<span class=\"class\">sealed class</span>")
-					.replace("enum class", "<span class=\"class\">enum class</span>")
-					.replace("value class", "<span class=\"class\">value class</span>")
-					.replace("class", "<span class=\"class\">class</span>")
-					.replace("companion object", "<span class=\"class\">companion object</span>")
-					.replace("object", "<span class=\"class\">object</span>")
-					.replace("interface", "<span class=\"class\">interface</span>")
+					.replace("data class", "<span class=\"clazz\">data class</span>")
+					.replace("open class", "<span class=\"clazz\">open class</span>")
+					.replace("abstract class", "<span class=\"clazz\">abstract class</span>")
+					.replace("sealed class", "<span class=\"clazz\">sealed class</span>")
+					.replace("enum class", "<span class=\"clazz\">enum class</span>")
+					.replace("value class", "<span class=\"clazz\">value class</span>")
+					.replace("class", "<span class=\"clazz\">class</span>")
+					.replace("companion object", "<span class=\"clazz\">companion object</span>")
+					.replace("object", "<span class=\"clazz\">object</span>")
+					.replace("interface", "<span class=\"clazz\">interface</span>")
 			)
 		}
 
@@ -119,7 +214,7 @@ object SyntaxHighlightingService {
 			)
 		}
 
-		val function = Regex("(?:infix\\s|inline\\s|)(?!\")fun(?:\\s<reified\\sT>|\\s<T>|)\\s([a-zA-Z.]*)\\(")
+		val function = Regex("(?:infix\\s|inline\\s|)(?!\")fun(?:\\s${HTML_OPEN_C}reified\\sT${HTML_CLOSED_C}|\\s${HTML_OPEN_C}T${HTML_CLOSED_C}|)\\s([a-zA-Z.]*)\\(")
 
 		function.findAll(html).forEach {
 			val functionName = it.groupValues.last()
@@ -145,18 +240,28 @@ object SyntaxHighlightingService {
 			)
 		}
 
+		val t = Regex("${HTML_OPEN_C}T${HTML_CLOSED_C}|\\sT${HTML_CLOSED_C}|\\(T\\)")
+
+		t.findAll(html).forEach {
+			html = html.replace(it.value, it.value.replace("T", "<span class=\"t\">T</span>"))
+		}
+
+		val thisRegex = Regex("(\\s|\\()this(\\.|\\s)")
+
+		thisRegex.findAll(html).forEach {
+			html = html.replace(it.value, it.value.replace("this", "<span class=\"this\">this</span>"))
+		}
+
+		val stringTemplating = Regex("\\$(\\{([a-zA-Z0-9.()]*)}|([a-zA-Z0-9]*))")
+
+		stringTemplating.findAll(html).forEach {
+			println(it.groupValues)
+			html = html.replaceFirst(
+				it.value,
+				"<span class=\"strtmp\">${it.value}</span>"
+			)
+		}
+
 		return html
-	}
-
-	fun test() {
-		val example = "<h3>?. and ?:</h3><p>Most of the time, I can fold a lot of my null checking into an elvis operator (<code>?:</code>). For example:</p><pre><code class=\"language-kotlin\">UserService.getById(id) ?: throw Exception(\"User couldn't be found\")\n" +
-				"</code></pre><p>But in Java, I'd have to do all this...</p><pre><code class=\"language-java\">User user = UserService.getById(id);\n" +
-				"\n" +
-				"if (Objects.isNull(user)) {\n" +
-				"    throw new Exception(\"User couldn't be found\");\n" +
-				"}\n" +
-				"</code></pre>"
-
-		highlight(example)
 	}
 }
