@@ -57,7 +57,6 @@ object SyntaxHighlightingService {
 
 		method.findAll(html).forEach {
 			val name = it.groupValues.last()
-			println(it.groupValues)
 			html = html.replace(
 				it.value,
 				it.value
@@ -73,7 +72,6 @@ object SyntaxHighlightingService {
 
 		properties.findAll(html).forEach {
 			val name = it.groupValues.last()
-			println(it.groupValues)
 			html = html.replace(
 				it.value,
 				it.value
@@ -207,7 +205,6 @@ object SyntaxHighlightingService {
 
 		returnRegex.findAll(html).forEach { r ->
 			val label = r.groupValues.getOrNull(1)
-			println(r.groupValues)
 			html = html.replace(
 				r.value,
 				"<span class=\"return\">return${if (label != null) "<span class=\"label\">@$label</span>" else ""}</span>"
@@ -232,7 +229,6 @@ object SyntaxHighlightingService {
 
 		italicizedMethods.findAll(html).forEach {
 			val method = it.groupValues.first()
-			println(it.groupValues)
 			html = html.replace(
 				it.value,
 				it.value
