@@ -251,7 +251,6 @@ object SyntaxHighlightingService {
 		val stringTemplating = Regex("\\$(\\{([a-zA-Z0-9.()]*)}|([a-zA-Z0-9]*))")
 
 		stringTemplating.findAll(html).forEach {
-			println(it.groupValues)
 			html = html.replaceFirst(
 				it.value,
 				"<span class=\"strtmp\">${it.value}</span>"
