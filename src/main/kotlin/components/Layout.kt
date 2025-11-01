@@ -40,7 +40,7 @@ fun layout() = createHTML().html {
 				classes = setOf("buttons")
 				buttons.forEach { button ->
 					a {
-						href = if (!button.site.isNullOrBlank()) "https://${button.site}/" else "#"
+						href = button.site ?: "#"
 						img { src = "/static/btn/${button.source}" }
 					}
 				}

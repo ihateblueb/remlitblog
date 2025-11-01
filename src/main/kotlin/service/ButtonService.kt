@@ -8,8 +8,9 @@ object ButtonService {
 		val buttons = mutableListOf<Button>()
 
 		list.forEach {
+			val url = it.split(":").getOrNull(1)
 			buttons.add(
-				Button(it.split(":")[0], "https:/${it.split(":").getOrNull(1)}/")
+				Button(it.split(":")[0], if (url != null) "https://${url}/" else null)
 			)
 		}
 
