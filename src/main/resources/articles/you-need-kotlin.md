@@ -151,10 +151,10 @@ fun setupListeners() {
 
 ## Data Classes
 
-Eventually, I'm likely doing a full thing on data classes vs record classes. Data classes are classes that are for holding
-data, and they automatically generate certain methods to make comparison, selecting, and modifying data easier. The big
-difference between data and record classes is flexibility. Java's records have all final members, the data inside cannot
-be changed, where in Kotlin it can be. At least Java has them now, though!
+Data classes are classes that are for holding data, and they automatically generate certain methods to make comparison,
+selecting, and modifying data easier. Java's counterpart is record classes. The big difference between data and record
+classes is flexibility. Java's records have all final members, the data inside cannot be changed, where in Kotlin it can be.
+At least Java has them now, though!
 
 ## Extension Functions
 
@@ -182,7 +182,7 @@ fun Invite.Companion.fromEntity(entity: InviteEntity): Invite = Invite(
 )
 ```
 
-This extends the companion object so it's available like a static. I'll have more to say about those later on.
+This extends the companion object so it's available like a static. I'll have more to say about statics later on.
 
 ## Lambda Parameters
 
@@ -299,7 +299,7 @@ testing Aster, I've watched coroutines be able to handle quite a lot with more e
 There's a lot more to be said about coroutines, little tricks that exist and some smart design choices, but like some
 other things on here this one is deserving of a full page on it.
 
-For more on coroutines from Kotlin, see [here](https://kotlinlang.org/docs/coroutines-basics.html).
+For now, if you want to know more about coroutines, see [here](https://kotlinlang.org/docs/coroutines-basics.html).
 
 ## Serialization
 
@@ -388,7 +388,7 @@ even on my laptop where it's pretty terrible to use, but they're making progress
 
 ## Honorable Mentions
 
-### Cool Annotations
+### Built-in Annotations
 
 There's a bunch of built-in annotations for the JVM target that sound cool, but I never end up using them. One example of
 that is `@JvmSynthetic` which makes it so only Kotlin code can use the annotated method. There's also `@JvmName`,
@@ -421,9 +421,6 @@ interested in anything mentioned here, you should [try it out](https://kotlinlan
 
 If you want to look at real Kotlin code, you can check out [Aster](https://github.com/ihateblueb/aster-kt), or [this blog's backend](https://github.com/ihateblueb/remlitblog),
 or a variety of other open source Kotlin projects on [GitHub](https://github.com/search?q=language%3AKotlin&type=repositories) or [Codeberg](https://codeberg.org/explore/repos?q=&language=Kotlin).
-
-A lot more could be said throughout this entire post, but I plan to write more in depth about specific Kotlin features
-in the future. There's a lot to talk about!
 
 ## Footnotes
 
