@@ -1,2 +1,2 @@
 http-signatures-for-activitypub:HTTP Signatures for ActivityPub:Oct. 26th, 2025
-you-need-kotlin:You Need Kotlin:Unpublished
+you-need-kotlin:You Need Kotlin:Nov. 1st, 2025

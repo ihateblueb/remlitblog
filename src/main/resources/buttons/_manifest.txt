@@ -2,9 +2,9 @@ kattgutte.png
 notfire.gif:notfire.cc
 wontwork.png:w.on-t.work
 pancakes.png:pancakes.gay
-swsign.png:swiftyshq.neocities.org
 sneexy.svg:sneexy.synth.download
 zenfyr.webp:zenfyr.dev
+swsign.png:swiftyshq.neocities.org
 eeper.gif
 javanow.gif
 kotlinnow.png:kotlinlang.org
