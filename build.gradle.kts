@@ -3,8 +3,8 @@ val kotlinx_html_version: String by project
 val logback_version: String by project
 
 plugins {
-	kotlin("jvm") version "2.2.20"
-	id("io.ktor.plugin") version "3.3.1"
+	kotlin("jvm") version "2.3.0"
+	id("io.ktor.plugin") version "3.4.0"
 }
 
 group = "site.remlit"
@@ -16,8 +16,6 @@ application {
 
 dependencies {
 	implementation("io.ktor:ktor-server-core")
-	implementation("com.ucasoft.ktor:ktor-simple-cache:0.55.3")
-	implementation("com.ucasoft.ktor:ktor-simple-memory-cache:0.55.3")
 	implementation("io.ktor:ktor-server-host-common")
 	implementation("io.ktor:ktor-server-call-logging")
 	implementation("io.ktor:ktor-server-html-builder")

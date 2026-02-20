@@ -7,7 +7,5 @@ zenfyr.webp:zenfyr.dev
 swsign.png:swiftyshq.neocities.org
 eeper.gif
 javanow.gif
-kotlinnow.png:kotlinlang.org
-jetbrains.png:jetbrains.com
 macos.gif
 wii.gif

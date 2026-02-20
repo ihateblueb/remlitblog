@@ -2,6 +2,6 @@ rootProject.name = "remlitblog"
 
 dependencyResolutionManagement {
 	repositories {
-		mavenCentral()
+		maven("https://repo.remlit.site/mirror")
 	}
 }
